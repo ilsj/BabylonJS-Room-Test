@@ -73,16 +73,13 @@ class Things {
         const sphere: BABYLON.Mesh = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: size }, scene);
         sphere.position.y = size / 2;
 
-        // const sphereDrag = new BABYLON.PointerDragBehavior({dragPlaneNormal: new BABYLON.Vector3(0, 1, 0)});
-        // // sphereDrag.dragDeltaRatio = 1;
-        // sphere.addBehavior(sphereDrag);
+        const sphereDrag = new BABYLON.PointerDragBehavior({dragPlaneNormal: new BABYLON.Vector3(0, 1, 0)});
+        sphere.addBehavior(sphereDrag);
 
         // sphereDrag.onDragObservable.add((event)=>{
         //     console.log("drag");
         //     console.log(event);
         // })
-
-        // sphere.checkCollisions = true;
 
         this.list.push(sphere);
         console.log(sphere);
@@ -91,8 +88,8 @@ class Things {
         const box: BABYLON.Mesh = BABYLON.MeshBuilder.CreateBox("box", { size: size });
         box.position = new BABYLON.Vector3(-5, size / 2, 0);
 
-        // const boxDrag = new BABYLON.PointerDragBehavior({dragPlaneNormal: new BABYLON.Vector3(0, 1, 0)});
-        // box.addBehavior(boxDrag);
+        const boxDrag = new BABYLON.PointerDragBehavior({dragPlaneNormal: new BABYLON.Vector3(0, 1, 0)});
+        box.addBehavior(boxDrag);
 
         this.list.push(box);
 
@@ -100,25 +97,25 @@ class Things {
         const cylinder: BABYLON.Mesh = BABYLON.MeshBuilder.CreateCylinder("cylinder", { height: size, diameter: size });
         cylinder.position = new BABYLON.Vector3(5, size / 2, 0);
 
-        // const cylinderDrag = new BABYLON.PointerDragBehavior({dragPlaneNormal: new BABYLON.Vector3(0, 1, 0)});
-        // cylinder.addBehavior(cylinderDrag);
+        const cylinderDrag = new BABYLON.PointerDragBehavior({dragPlaneNormal: new BABYLON.Vector3(0, 1, 0)});
+        cylinder.addBehavior(cylinderDrag);
 
         this.list.push(cylinder);
 
 
-        // scene.registerBeforeRender(() => {
-        //     this.checkCollisions()
-        // })
+        scene.registerBeforeRender(() => {
+            this.checkCollisions()
+        })
     }
 
-    // private checkCollisions() {
-    //     this.list.forEach(mesh => {
-    //         if (mesh.position.x >= this.boundX && this.room.wall4.isVisible) mesh.position.x = this.boundX;
-    //         if (mesh.position.x <= -this.boundX && this.room.wall3.isVisible) mesh.position.x = -this.boundX;
-    //         if (mesh.position.z >= this.boundZ && this.room.wall2.isVisible) mesh.position.z = this.boundZ;
-    //         if (mesh.position.z <= -this.boundZ && this.room.wall1.isVisible) mesh.position.z = -this.boundZ;
-    //     });
-    // }
+    private checkCollisions() {
+        this.list.forEach(mesh => {
+            if (mesh.position.x >= this.boundX && this.room.wall4.isVisible) mesh.position.x = this.boundX;
+            if (mesh.position.x <= -this.boundX && this.room.wall3.isVisible) mesh.position.x = -this.boundX;
+            if (mesh.position.z >= this.boundZ && this.room.wall2.isVisible) mesh.position.z = this.boundZ;
+            if (mesh.position.z <= -this.boundZ && this.room.wall1.isVisible) mesh.position.z = -this.boundZ;
+        });
+    }
 }
 
 class Drag {
@@ -208,7 +205,7 @@ class App {
 
         new Things(scene, room);
 
-        new Drag(scene, room.floor, camera, canvas)
+        // new Drag(scene, room.floor, camera, canvas)
 
         engine.runRenderLoop(() => {
             room.hideWalls(camera.position)
